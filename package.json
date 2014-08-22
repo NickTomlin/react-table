@@ -1,0 +1,33 @@
+{
+  "name": "react-table",
+  "version": "0.0.0",
+  "description": "A sortable table component for react",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "build": "browserify index.js -s ReactTable > ./dist/react-table.js",
+    "watch": "watchify index.js -s ReactTable -o ./dist/react-table.js",
+    "build:examples": "browserify   ./examples/app.js -s React > ./examples/app.built.js",
+    "watch:examples": "watchify ./examples/app.js  -s React -o ./examples/app.built.js"
+  },
+  "author": "Nick Tomlin",
+  "license": "ISC",
+  "jest": {
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/react",
+      "<rootDir>/node_modules/lodash",
+      "<rootDir>/__tests__/spec-helper",
+      "<rootDir>/__tests__/data"
+    ]
+  },
+  "devDependencies": {
+    "browserify": "^5.10.0",
+    "jest": "^0.1.37",
+    "jest-cli": "^0.1.18",
+    "jshint": "^2.5.4",
+    "lodash": "^2.4.1",
+    "mocha": "^1.21.4",
+    "reactify": "^0.14.0",
+    "watchify": "^1.0.2"
+  }
+}
