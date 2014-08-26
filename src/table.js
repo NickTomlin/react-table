@@ -81,9 +81,13 @@ module.exports = React.createClass({
       : a <= b;
   },
   renderRows: function () {
-    return this.props.data.sort(this.sortRowData.bind(this)).map(function (row) {
-      return TableRow({data: this.filterObject(row)});
-    }.bind(this));
+    return this.props.data
+      // keep things immutable-ish :\
+      .slice()
+      .sort(this.sortRowData.bind(this))
+      .map(function (row) {
+          return TableRow({data: this.filterObject(row)});
+        }.bind(this));
   },
   render: function () {
     return React.DOM.table({children: [

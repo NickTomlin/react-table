@@ -60,6 +60,7 @@ describe('Table', function () {
       it('sorts rows in descending order, if state.sortKey is descending, using the 1st key of a row as comparator', function () {
         var table = render({data: sortData});
         table.setState({sortDirection: 'descending'});
+
         expect(table.sortRowData(sortData[0], sortData[1])).toBeTruthy();
       });
 
