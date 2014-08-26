@@ -1,8 +1,8 @@
-jest.dontMock('../src/table');
+jest.dontMock('../../src/table');
 
 describe('Table', function () {
-  var Table = require('../src/table');
-  var TableHeader = require('../src/table-header');
+  var Table = require('../../src/table');
+  var TableHeader = require('../../src/table-header');
   var helper = require('./spec-helper');
   var React = require('react/addons');
   var TestUtils = React.addons.TestUtils;

@@ -1,11 +1,11 @@
-jest.dontMock('../src/table-header');
+jest.dontMock('../../src/table-header');
 require('./spec-helper');
 
 describe('Table Header', function () {
   var React = require('react/addons');
   var TestUtils = React.addons.TestUtils;
   var helper = require('./spec-helper');
-  var TableHeader = require('../src/table-header');
+  var TableHeader = require('../../src/table-header');
   var render = helper.render.bind(null, TableHeader);
 
   it('renders a table header', function () {

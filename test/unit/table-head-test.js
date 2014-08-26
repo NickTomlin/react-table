@@ -1,9 +1,9 @@
-jest.dontMock('../src/table-head');
-jest.dontMock('../src/table-header');
+jest.dontMock('../../src/table-head');
+jest.dontMock('../../src/table-header');
 
 describe('TableHead', function () {
-  var TableHead = require('../src/table-head');
-  var TableHeader = require('../src/table-header');
+  var TableHead = require('../../src/table-head');
+  var TableHeader = require('../../src/table-header');
   var React = require('react/addons');
   var helper = require('./spec-helper');
   // curry render for less typing.

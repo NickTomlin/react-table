@@ -13,11 +13,15 @@
   "author": "Nick Tomlin",
   "license": "ISC",
   "jest": {
+    "testDirectoryName": "unit",
+    "testPathDirs": [
+      "<rootDir>/test"
+    ],
     "unmockedModulePathPatterns": [
       "<rootDir>/node_modules/react",
       "<rootDir>/node_modules/lodash",
-      "<rootDir>/__tests__/spec-helper",
-      "<rootDir>/__tests__/data"
+      "<rootDir>/test/unit/spec-helper",
+      "<rootDir>/test/unit/data"
     ]
   },
   "devDependencies": {
