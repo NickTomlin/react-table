@@ -59,6 +59,7 @@ module.exports = React.createClass({
     var columns = this.generateHeadersFromRow(this.props.data[0]);
     return TableHead({
       columns: columns,
+      columnDisplay: this.props.columnDisplay,
       activeKey: this.state.activeSortKey,
       handleHeadingClick: this.handleHeadingClick,
       sortDirection: this.state.sortDirection
@@ -86,7 +87,9 @@ module.exports = React.createClass({
       .slice()
       .sort(this.sortRowData.bind(this))
       .map(function (row) {
-          return TableRow({data: this.filterObject(row)});
+          return TableRow({
+            data: this.filterObject(row),
+          });
         }.bind(this));
   },
   render: function () {

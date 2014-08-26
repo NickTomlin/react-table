@@ -29,4 +29,29 @@ describe('TableHead', function () {
 
     expect(mockHandler).toBeCalled();
   });
+
+  it('remaps table header display if object is passed in', function () {
+    var head = render({sortKey: 'foo', columns: fixtures.headings, columnDisplay: {
+      'heading1': 'first heading',
+      'heading2': 'second heading',
+      'heading3': 'third heading'
+    }});
+
+    var secondHeadingNode = queryHeadings(head)[1].getDOMNode();
+
+    expect(secondHeadingNode.textContent).toEqual('second heading');
+  });
+
+  it('uses the column name as the header display if no mapping is given', function () {
+    var head = render({sortKey: 'foo', columns: fixtures.headings, columnDisplay: {
+      'heading1': 'first heading',
+    }});
+
+    var headings = queryHeadings(head);
+    var firstHeadingNode = headings[0].getDOMNode();
+    var secondHeadingNode = headings[1].getDOMNode();
+
+    expect(firstHeadingNode.textContent).toEqual('first heading');
+    expect(secondHeadingNode.textContent).toEqual(fixtures.headings[1]);
+  });
 });

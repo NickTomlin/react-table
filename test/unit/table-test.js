@@ -3,6 +3,7 @@ jest.dontMock('../../src/table');
 describe('Table', function () {
   var Table = require('../../src/table');
   var TableHeader = require('../../src/table-header');
+  var TableHead = require('../../src/table-head');
   var helper = require('./spec-helper');
   var React = require('react/addons');
   var TestUtils = React.addons.TestUtils;
@@ -33,7 +34,7 @@ describe('Table', function () {
     expect(filteredData).toMatch(_.omit(data, '_private'));
   });
 
-  describe('#renderHead', function () {
+  describe('#renderHeader', function () {
     it('defaults to creating headers based on key names of data', function () {
       var table = render({data: fixtures.data});
       var headers = table.generateHeadersFromRow(fixtures.data[0]);
@@ -151,6 +152,25 @@ describe('Table', function () {
 
         expect(table.state.sortDirection).toEqual('ascending');
       });
+    });
+  });
+
+  describe('#renderHead', function () {
+    iit('passes columnDisplay to head', function () {
+      // can't wait for computed properties!
+      var columnDisplay = {};
+      columnDisplay[fixtures.headings[0]] = fixtures.headings[0].toUpperCase();
+      columnDisplay[fixtures.headings[1]] = fixtures.headings[1].toUpperCase();
+
+      var table = render({
+        data: fixtures.data,
+        columnDisplay: columnDisplay
+      });
+
+      var header = TestUtils.findRenderedComponentWithType(table, TableHead);
+      var mappedHeaders = Object.keys(header.props.columnDisplay);
+
+      expect(mappedHeaders.length).toEqual(2);
     });
   });
 
