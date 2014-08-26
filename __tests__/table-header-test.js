@@ -22,8 +22,46 @@ describe('Table Header', function () {
     expect(mock).toBeCalled();
   });
 
-  it('it uses its name prop as a key');
-  it('defaults to adding an ascending class');
-  it('toggles its sortOrder class');
-  it('renders supplied children');
+  it('calls clickHandler with the value of its props', function () {
+    var mock = jest.genMockFunction();
+    var tableHeader = render({
+      sortKey: 'name',
+      clickHandler: mock
+    });
+
+    helper.click(tableHeader.getDOMNode());
+
+    expect(mock).toBeCalledWith({
+      sortKey: 'name'
+    });
+  });
+
+  it('adds a className based on its sort order', function () {
+    var tableHeader = render();
+    var expectedClassName = tableHeader.getClassName();
+
+    TestUtils.findRenderedDOMComponentWithClass(tableHeader, expectedClassName);
+  });
+
+  it('defaults to inactive', function () {
+    var tableHeader = render();
+
+    expect(tableHeader.props.isActive).toBeFalsy();
+  });
+
+  it('adds an active class if props.isActive is true', function () {
+    var tableHeader = render({isActive: true, sortDirection: 'descending'});
+    var expectedClassName = tableHeader.getClassName();
+
+    TestUtils.findRenderedDOMComponentWithClass(tableHeader, expectedClassName);
+  });
+
+  it('adds does not add an active class if props.isActive is false', function () {
+    var sortDirection = 'descending';
+    var tableHeader = render({isActive: false, sortDirection: sortDirection});
+    var expectedClassName = tableHeader.getClassName();
+
+    expect(expectedClassName).not.toContain(sortDirection);
+    TestUtils.findRenderedDOMComponentWithClass(tableHeader, expectedClassName);
+  });
 });

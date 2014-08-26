@@ -23,7 +23,7 @@ describe('TableHead', function () {
 
   it('calls clickHandler handler when TableHeader is clicked', function () {
     var mockHandler = jest.genMockFunction();
-    var head = render({clickHandler: mockHandler, foo: 'bar', columns: fixtures.headings});
+    var head = render({handleHeadingClick: mockHandler, sortKey: 'foo', columns: fixtures.headings});
     var secondHeading = queryHeadings(head)[1].getDOMNode();
     helper.click(secondHeading);
 

@@ -18644,12 +18644,18 @@ module.exports = React.createClass({
   },
   handleHeadingClick: function () {
     if (this.props.clickHandler) {
-      this.props.clickHandler();
+      this.props.clickHandler.apply(null, arguments);
     }
   },
   renderHeaders: function () {
     return this.props.columns.map(function (column) {
-      return TableHeader({clickHandler: this.handleHeadingClick, children: column});
+      return TableHeader({
+        clickHandler: this.props.handleHeadingClick,
+        children: column,
+        isActive: this.props.activeKey === column,
+        sortKey: column,
+        sortDirection: this.props.sortDirection
+      });
     }.bind(this));
   },
   render: function () {
@@ -18663,13 +18669,30 @@ module.exports = React.createClass({
 var React = require('react');
 
 module.exports = React.createClass({
+  className: 'table-header',
+  getDefaultProps: function () {
+    return {
+      isActive: false,
+      sortDirection: 'ascending'
+    };
+  },
   handleClick: function () {
     if (this.props.clickHandler) {
-      this.props.clickHandler(this.props.children);
+      this.props.clickHandler({
+        sortKey: this.props.sortKey
+      });
     }
   },
+  getClassName: function () {
+    var activeClass = this.props.isActive ?
+      this.className + '__' + this.props.sortDirection : '';
+    return [this.className, activeClass].join(' ');
+  },
   render: function () {
-    return React.DOM.th({onClick: this.handleClick}, this.props.children);
+    return React.DOM.th({
+      onClick: this.handleClick,
+      className: this.getClassName()
+    }, this.props.children);
   }
 });
 
@@ -18708,6 +18731,26 @@ module.exports = React.createClass({
       data: []
     };
   },
+  getInitialState: function () {
+    return {
+      sortDirection: 'ascending'
+    };
+  },
+  handleHeadingClick: function (data) {
+    var activeKey = this.state.activeSortKey;
+
+    if (activeKey && activeKey === data.sortKey) {
+      this.setState({
+        sortDirection: this.state.sortDirection ===
+          'ascending' ? 'descending' : 'ascending'
+      });
+    } else {
+      this.setState({
+        activeSortKey: data.sortKey
+      }, function () {
+      }.bind(this));
+    }
+  },
   filterObject: function (obj) {
     var filteredData;
     var includedColumns = this.props.includedColumns;
@@ -18737,10 +18780,31 @@ module.exports = React.createClass({
   },
   renderHead: function () {
     var columns = this.generateHeadersFromRow(this.props.data[0]);
-    return TableHead({columns: columns});
+    return TableHead({
+      columns: columns,
+      activeKey: this.state.activeSortKey,
+      handleHeadingClick: this.handleHeadingClick,
+      sortDirection: this.state.sortDirection
+    });
+  },
+  sortRowData: function (rowA, rowB) {
+    var key, a, b;
+
+    if(this.state.activeSortKey) {
+      key = this.state.activeSortKey;
+    } else {
+      key = Object.keys(rowA)[0];
+    }
+
+    a = rowA[key];
+    b = rowB[key];
+
+    return this.state.sortDirection === 'ascending' ?
+      a > b
+      : a <= b;
   },
   renderRows: function () {
-    return this.props.data.map(function (row) {
+    return this.props.data.sort(this.sortRowData.bind(this)).map(function (row) {
       return TableRow({data: this.filterObject(row)});
     }.bind(this));
   },

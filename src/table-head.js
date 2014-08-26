@@ -9,12 +9,18 @@ module.exports = React.createClass({
   },
   handleHeadingClick: function () {
     if (this.props.clickHandler) {
-      this.props.clickHandler();
+      this.props.clickHandler.apply(null, arguments);
     }
   },
   renderHeaders: function () {
     return this.props.columns.map(function (column) {
-      return TableHeader({clickHandler: this.handleHeadingClick, children: column});
+      return TableHeader({
+        clickHandler: this.props.handleHeadingClick,
+        children: column,
+        isActive: this.props.activeKey === column,
+        sortKey: column,
+        sortDirection: this.props.sortDirection
+      });
     }.bind(this));
   },
   render: function () {
