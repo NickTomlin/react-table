@@ -18639,7 +18639,8 @@ var TableHeader = require('./table-header');
 module.exports = React.createClass({
   getDefaultProps: function () {
     return {
-      columns: []
+      columns: [],
+      columnDisplay: {}
     };
   },
   handleHeadingClick: function () {
@@ -18647,20 +18648,22 @@ module.exports = React.createClass({
       this.props.clickHandler.apply(null, arguments);
     }
   },
-  renderHeaders: function () {
+  renderHeader: function () {
     return this.props.columns.map(function (column) {
+      var mappedValue = this.props.columnDisplay[column];
+
       return TableHeader({
         clickHandler: this.props.handleHeadingClick,
-        children: column,
         isActive: this.props.activeKey === column,
         sortKey: column,
-        sortDirection: this.props.sortDirection
+        sortDirection: this.props.sortDirection,
+        children: mappedValue ? mappedValue : column
       });
     }.bind(this));
   },
   render: function () {
     return React.DOM.thead({
-      children: this.renderHeaders()
+      children: this.renderHeader()
     });
   }
 });
@@ -18703,7 +18706,7 @@ module.exports = React.createClass({
   getDefaultProps: function () {
     return {
       data: []
-    }
+    };
   },
   renderRowData: function () {
     var tds = [];
@@ -18782,6 +18785,7 @@ module.exports = React.createClass({
     var columns = this.generateHeadersFromRow(this.props.data[0]);
     return TableHead({
       columns: columns,
+      columnDisplay: this.props.columnDisplay,
       activeKey: this.state.activeSortKey,
       handleHeadingClick: this.handleHeadingClick,
       sortDirection: this.state.sortDirection
@@ -18809,7 +18813,9 @@ module.exports = React.createClass({
       .slice()
       .sort(this.sortRowData.bind(this))
       .map(function (row) {
-          return TableRow({data: this.filterObject(row)});
+          return TableRow({
+            data: this.filterObject(row),
+          });
         }.bind(this));
   },
   render: function () {
