@@ -4,7 +4,7 @@ module.exports = React.createClass({
   getDefaultProps: function () {
     return {
       data: []
-    }
+    };
   },
   renderRowData: function () {
     var tds = [];
