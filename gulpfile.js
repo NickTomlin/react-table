@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var gutil = require('gulp-util');
 var browserify = require('browserify');
 var streamify = require('gulp-streamify');
 var connect = require('connect');
@@ -10,29 +11,37 @@ var uglify = require('gulp-uglify');
 
 var CONFIG = {
   namespace: 'ReactTable',
+  distDir: 'dist',
   outfile: 'react-table.js',
   port: 3111
 };
 
-function browserifyMain () {
-  return browserify('./index.js')
+function buildScript (inFilePath, outfileName, dest) {
+  dest = dest || './dist';
+
+  return browserify(inFilePath)
     .bundle()
-    .pipe(source(CONFIG.outfile))
-    .pipe(gulp.dest('./dist'));
+    .on('error', gutil.log.bind(gutil, 'Browserify Error'))
+    .pipe(source(outfileName))
+    .pipe(gulp.dest(dest));
 }
 
-gulp.task('build', function () {
-    return browserifyMain();
+gulp.task('build:dev', function () {
+    return buildScript('./index.js', CONFIG.outfile);
 });
 
 gulp.task('build:release', function () {
-    return browserifyMain()
+    return buildScript('./index.js', CONFIG.outfile)
       .pipe(streamify(uglify()))
       .pipe(rename({suffix: '.min'}))
-      .pipe(gulp.dest('./dist'));
+      .pipe(gulp.dest(CONFIG.distDir));
 });
 
-gulp.task('serve', function (cb) {
+gulp.task('build:examples', function () {
+    return buildScript('./examples/app.js', 'app.built.js', './examples/public');
+});
+
+gulp.task('serve', ['build:examples'], function (cb) {
   var connectRoute = require('connect-route');
   var app = connect()
     .use(connect.logger('dev'))
@@ -40,15 +49,11 @@ gulp.task('serve', function (cb) {
     .use(connect.static('./dist'))
     .use(connectRoute(function (router) {
       router.get('/data', function (req, res) {
-        for (var p in res) {
-          if (typeof p === 'function') console.log(p);
-        }
         res.setHeader('Content-Type', 'application/json');
-        res.end(
-          JSON.stringify(
-          {
-          "hello": "world"
-          }
+        res.end(JSON.stringify(
+            {
+              "hello": "world"
+            }
         ));
       });
     }));
@@ -59,7 +64,10 @@ gulp.task('serve', function (cb) {
 });
 
 gulp.task('dev', function () {
-  gulp.watch(['./src/**/*.js'], ['build']);
+  gulp.watch(['./src/**/*.js'], ['build:dev', 'build:examples']);
+  gulp.watch(['./examples/*.js'], ['build:examples']);
+  // .start as alternative to .run http://stackoverflow.com/a/23298810/1048479
+  gulp.start('serve');
 });
 
 gulp.task('default', ['dev']);
