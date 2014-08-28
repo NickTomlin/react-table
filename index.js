@@ -1,1 +1,1 @@
-module.exports = Table = require('./src/table');
+module.exports = require('./src/table');
