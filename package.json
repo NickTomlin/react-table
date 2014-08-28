@@ -25,7 +25,6 @@
     ]
   },
   "devDependencies": {
-    "body-parser": "^1.6.5",
     "browserify": "^5.10.0",
     "connect": "^2.25.7",
     "connect-route": "^0.1.4",
