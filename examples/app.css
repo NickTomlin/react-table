@@ -1,0 +1,11 @@
+.table-header__ascending {
+  color:blue;
+}
+
+.table-header__ascending:before {
+  content: "A:";
+}
+
+.table-header__descending:before {
+  content: "D:"
+}
