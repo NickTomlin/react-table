@@ -156,7 +156,7 @@ describe('Table', function () {
   });
 
   describe('#renderHead', function () {
-    iit('passes columnDisplay to head', function () {
+    it('passes columnDisplay to head', function () {
       // can't wait for computed properties!
       var columnDisplay = {};
       columnDisplay[fixtures.headings[0]] = fixtures.headings[0].toUpperCase();
