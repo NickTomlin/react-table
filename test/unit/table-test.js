@@ -6,9 +6,24 @@ describe('Table', function () {
   var TableHead = require('../../src/table-head');
   var helper = require('./spec-helper');
   var React = require('react/addons');
+  var _ = require('lodash');
   var TestUtils = React.addons.TestUtils;
   // curry render for less typing.
   var render = helper.render.bind(null, Table);
+
+  function selecTrs (table) {
+    return TestUtils.scryRenderedDOMComponentsWithTag(table, 'tr');
+  }
+
+  function trsContain(table, array) {
+    var trs = selecTrs(table);
+    _.zip(trs, array)
+      .forEach(function (pair) {
+        var actual = parseInt(pair[0].getDOMNode().textContent);
+        var expected = pair[1];
+        expect(actual).toEqual(expected);
+      });
+  }
 
   it('renders a table', function () {
     var table = render();
@@ -46,41 +61,53 @@ describe('Table', function () {
   describe('sorting', function () {
     var sortData = [
       {id: 10, name: "z"},
-      {id: 80, name: "d"},
-      {id: 50, name: "a"},
-      {id: 20, name: "b"}
+      {id: 14000, name: "d"},
+      {id: 104, name: "a"},
+      {id: 90, name: "b"}
     ];
 
-    describe('#sortRowData', function () {
-      it('sorts rows in ascending order by default, using the 1st key of a row as comparator', function () {
-        var table = render({data: sortData});
+    it('properly sorts numerical items', function () {
+      var key = 'id';
+      var numericalData = [15, 47, 7, 7, 12, 15, 7, 15, 15, 27, 47].map(function (x) { return {id: x}; });
+      var sorted = [7, 7, 7, 12, 15, 15, 15, 15, 27, 47, 47];
 
-        expect(table.sortRowData(sortData[0], sortData[1])).toBeFalsy();
-      });
+      var table = render({data: numericalData});
+      trsContain(table, sorted);
+    });
 
-      it('sorts rows in descending order, if state.sortKey is descending, using the 1st key of a row as comparator', function () {
-        var table = render({data: sortData});
-        table.setState({sortDirection: 'descending'});
 
-        expect(table.sortRowData(sortData[0], sortData[1])).toBeTruthy();
-      });
+    // TODO
+    // the way we are checking this is ganky
+    // is there a way we can isolate the sorting from the components
+    // so we don't have to interact with the rendered component?
 
-      it('sorts with a key provided by state.sortKey', function () {
-        var data =  [
-          {
-            'id': 200,
-            'age': 1
-          },
-          {
-            'id': 2,
-            'age': 100
-          }
-        ];
-        var table = render({data: data});
-        table.setState({activeSortKey: 'age'});
+    it('sorts rows in descending order, if state.sortKey is descending, using the 1st key of a row as comparator', function () {
+      var table = render({data: sortData});
 
-        expect(table.sortRowData(data[0], data[1])).toBeFalsy();
-      });
+      table.setState({sortDirection: 'descending'});
+
+      var sorted = sortData
+      .sort(function (x,y) {return y.id - x.id; })
+      .map(function (x) { return x.id; });
+
+      trsContain(table, sorted);
+    });
+
+    it('sorts with a key provided by state.sortKey', function () {
+      var data =  [
+        {
+        'id': 100,
+        'age': 1
+      },
+      {
+        'id': 3,
+        'age': 300
+      }
+      ];
+      var table = render({data: data});
+      table.setState({activeSortKey: 'age'});
+
+      trsContain(table, [1001, 3300]);
     });
 
     describe('#handleHeadingClick', function () {

@@ -65,32 +65,54 @@ module.exports = React.createClass({
       sortDirection: this.state.sortDirection
     });
   },
-  sortRowData: function (rowA, rowB) {
-    var key, a, b;
+  sortRow: function (options, rowA, rowB) {
+    var a = rowA[options.key];
+    var b = rowB[options.key];
 
-    if(this.state.activeSortKey) {
-      key = this.state.activeSortKey;
+    if (options.direction === 'ascending') {
+      if (options.type === 'number') {
+        return a - b;
+      } else {
+        return a < b;
+      }
     } else {
-      key = Object.keys(rowA)[0];
+      if (options.type === 'number') {
+        return b - a;
+      } else {
+        return a > b;
+      }
+    }
+  },
+  sortRows: function (data) {
+    var sortConfig = {};
+
+    sortConfig.direction = this.state.sortDirection;
+
+    if (this.state.activeSortKey) {
+      sortConfig.key = this.state.activeSortKey;
+    } else {
+      sortConfig.key = data[0] ?
+        Object.keys(data[0])[0]
+        : undefined;
     }
 
-    a = rowA[key];
-    b = rowB[key];
+    sortConfig.type = sortConfig.key ? typeof data[0][sortConfig.key] : undefined;
 
-    return this.state.sortDirection === 'ascending' ?
-      a > b
-      : a <= b;
+    return data
+          .sort(this.sortRow.bind(this, sortConfig));
+
+  },
+  renderRow: function (row) {
+    return TableRow({
+      data: this.filterObject(row)
+    });
   },
   renderRows: function () {
-    return this.props.data
-      // keep things immutable-ish :\
-      .slice()
-      .sort(this.sortRowData.bind(this))
-      .map(function (row) {
-          return TableRow({
-            data: this.filterObject(row),
-          });
-        }.bind(this));
+    // keep things immutable-ish
+    var data = this.props.data.slice();
+
+    return this.sortRows(data)
+      .map(this.renderRow.bind(this));
   },
   render: function () {
     return React.DOM.table({children: [
