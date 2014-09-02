@@ -4,11 +4,9 @@
   "description": "A sortable table component for react",
   "main": "index.js",
   "scripts": {
+    "start": "gulp",
     "test": "jest",
-    "build": "browserify index.js -s ReactTable > ./dist/react-table.js",
-    "watch": "watchify index.js -s ReactTable -o ./dist/react-table.js",
-    "build:examples": "browserify   ./examples/app.js -s React > ./examples/app.built.js",
-    "watch:examples": "watchify ./examples/app.js  -s React -o ./examples/app.built.js"
+    "build": "gulp build:release"
   },
   "author": "Nick Tomlin",
   "license": "ISC",
