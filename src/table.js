@@ -73,13 +73,17 @@ module.exports = React.createClass({
       if (options.type === 'number') {
         return a - b;
       } else {
-        return a < b;
+        if (a < b) return -1;
+        if (a > b) return 1;
+        return 0;
       }
     } else {
       if (options.type === 'number') {
         return b - a;
       } else {
-        return a > b;
+        if (a > b) return -1;
+        if (a < b) return 1;
+        return 0;
       }
     }
   },

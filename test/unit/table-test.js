@@ -76,6 +76,31 @@ describe('Table', function () {
     });
 
 
+    it('properly sorts alphabetical items', function () {
+      var key = 'id';
+      var data = ["SUFFOLK", "NASSAU", "SUFFOLK", "WESTCHESTER", "WESTCHESTER", "ONONDAGA", "WESTCHESTER", "WESTCHESTER", "SUFFOLK", "ONONDAGA", "ONONDAGA", "ONONDAGA", "WESTCHESTER", "WESTCHESTER", "SUFFOLK", "ONONDAGA", "ONONDAGA", "ONONDAGA", "ONONDAGA", "SUFFOLK", "SUFFOLK", "SUFFOLK", "SUFFOLK", "SUFFOLK", "WESTCHESTER"].map(function (x){ return {name: x}; });
+
+      var sorted = ["NASSAU", "ONONDAGA", "ONONDAGA", "ONONDAGA", "ONONDAGA", "ONONDAGA", "ONONDAGA", "ONONDAGA", "ONONDAGA", "SUFFOLK", "SUFFOLK", "SUFFOLK", "SUFFOLK", "SUFFOLK", "SUFFOLK", "SUFFOLK", "SUFFOLK", "SUFFOLK", "WESTCHESTER", "WESTCHESTER", "WESTCHESTER", "WESTCHESTER", "WESTCHESTER", "WESTCHESTER", "WESTCHESTER"];
+
+      var table = render();
+      var actual = table.sortRows(data).map(function (x) { return x.name; });
+
+      expect(actual.every(function (x, index) {
+        return x === sorted[index];
+      })).toBeTruthy();
+    });
+
+    it('sorts rows in ascending order by default, using the 1st key of a row as comparator', function () {
+      var table = render({data: sortData});
+      var trs = selecTrs(table);
+
+      var smallestId = sortData[0].id + sortData[0].name;
+      var largestId = sortData[1].id + sortData[1].name;
+
+      expect(trs[0].getDOMNode().textContent).toContain(smallestId);
+      expect(trs[trs.length - 1].getDOMNode().textContent).toEqual(largestId);
+    });
+
     // TODO
     // the way we are checking this is ganky
     // is there a way we can isolate the sorting from the components
