@@ -43,18 +43,18 @@ gulp.task('build:examples', function () {
 
 gulp.task('serve', ['build:examples'], function (cb) {
   var connectRoute = require('connect-route');
+  var fs = require('fs');
+  var data = fs.readFileSync('./examples/data/names-small.json', 'utf8');
+
   var app = connect()
     .use(connect.logger('dev'))
     .use(connect.static('./examples'))
+    .use(connect.static('./public'))
     .use(connect.static('./dist'))
     .use(connectRoute(function (router) {
       router.get('/data', function (req, res) {
         res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify(
-            {
-              "hello": "world"
-            }
-        ));
+        res.end(JSON.stringify(data));
       });
     }));
 
