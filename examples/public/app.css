@@ -1,3 +1,22 @@
+body {
+  max-width: 80em;
+  margin: 0 auto;
+}
+
+button {
+  border: 0;
+  outline: none;
+  background: tomato;
+  padding: .75em .5em;
+  color: white;
+  border-radius:3px;
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+}
+
 .table-header__ascending {
   color:blue;
 }

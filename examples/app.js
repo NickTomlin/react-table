@@ -1,23 +1,43 @@
 var React = require('react');
 var ReactTable = require('../index');
 var request = require('superagent');
-// yes, this is a little messy
-var data;
-var respondToData;
+
+var Button = React.createClass({
+  getDefaultProps: function () {
+    return {
+      clickHandler: function () {}
+    };
+  },
+  handleClick: function () {
+    this.props.clickHandler();
+  },
+  render: function () {
+    return React.DOM.button({onClick: this.handleClick}, 'load data');
+  }
+});
 
 var App = React.createClass({
+  getInitialState: function () {
+    return {
+      data: []
+    };
+  },
+  clickHandler: function () {
+    console.log('click handler yo');
+    requestData(function (err, data) {
+      if (err) { console.log(err); return; }
+      this.setState({
+        data: data
+      });
+    }.bind(this));
+  },
   render: function () {
     return React.DOM.div({
-      componentWillMount: function () {
-        var self = this;
-        respondToData = function (data) {
-          self.props.data = data;
-        };
-      },
       children: [
         React.DOM.h1(null, 'Hi From React'),
+        Button({clickHandler: this.clickHandler}),
         ReactTable({
-          data: this.props.data,
+          data: this.state.data,
           columnDisplay: {
             'neighborhood': 'borough'
           }
@@ -27,11 +47,12 @@ var App = React.createClass({
   }
 });
 
-request.get('/data')
-  .end(function (err, res) {
-    data = pipeline(res.body);
-    respondToData(data);
-  });
+function requestData (callback) {
+  request.get('/data')
+    .end(function (err, res) {
+      callback(err, pipeline(res.body));
+    });
+}
 
 function transformToObject(data) {
   data = data.slice(8);
@@ -48,6 +69,5 @@ function pipeline (data) {
   return JSON.parse(data)
     .map(transformToObject);
 }
-
 
 React.renderComponent(App(), document.body);
