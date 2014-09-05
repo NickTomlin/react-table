@@ -18,10 +18,10 @@
   text-align: center;
 }
 
-.pure-table td,
-.pure-table th {
+.react-table td,
+.react-table th {
     font-size: inherit;
     margin: 0;
-    overflow: visible; /*to make ths where the title is really long work*/
-    padding: 0.5em 1em; /* cell padding */
+    overflow: visible;
+    padding: .75em 1em;
 }

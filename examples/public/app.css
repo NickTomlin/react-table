@@ -1,6 +1,7 @@
 body {
   max-width: 80em;
   margin: 0 auto;
+  font-family: monospace;
 }
 
 button {
@@ -13,18 +14,79 @@ button {
   cursor: pointer;
 }
 
+.hero-button {
+  text-align: center;
+  font-size:3em;
+}
+
 table {
   width: 100%;
+  border-spacing: 0;
+  text-align: left;
 }
 
-.table-header__ascending {
-  color:blue;
+.react-table__th--ascending:before {
+  content: "↓"
 }
 
-.table-header__ascending:before {
-  content: "A:";
+.react-table__th--descending:before {
+  content: "↑";
 }
 
-.table-header__descending:before {
-  content: "D:"
+.react-table__th {
+  border-bottom: 2px solid #6699cc; /* 0d */
+  color: #2d2d2d;
+  font-weight: bolder;
+  font-size: 1.25em;
+  padding: 1em 1em;
+  text-transform: capitalize;
 }
+
+.react-table__tr:nth-child(odd) td {
+ border-spacing: 0;
+ background-color: #f2f0ec;
+}
+
+.react-table__td {
+  color: #393939;
+  padding: 1em 1em;
+}
+
+/*
+ * Thanks to Chris Kempson for the wonderful base16 eighties theme
+ * http://chriskempson.github.io/base16/#eighties
+ */
+
+.base00-background { background-color: #2d2d2d; }
+.base01-background { background-color: #393939; }
+.base02-background { background-color: #515151; }
+.base03-background { background-color: #747369; }
+.base04-background { background-color: #a09f93; }
+.base05-background { background-color: #d3d0c8; }
+.base06-background { background-color: #e8e6df; }
+.base07-background { background-color: #f2f0ec; }
+.base08-background { background-color: #f2777a; }
+.base09-background { background-color: #f99157; }
+.base0A-background { background-color: #ffcc66; }
+.base0B-background { background-color: #99cc99; }
+.base0C-background { background-color: #66cccc; }
+.base0D-background { background-color: #6699cc; }
+.base0E-background { background-color: #cc99cc; }
+.base0F-background { background-color: #d27b53; }
+
+.base00 { color: #2d2d2d; }
+.base01 { color: #393939; }
+.base02 { color: #515151; }
+.base03 { color: #747369; }
+.base04 { color: #a09f93; }
+.base05 { color: #d3d0c8; }
+.base06 { color: #e8e6df; }
+.base07 { color: #f2f0ec; }
+.base08 { color: #f2777a; }
+.base09 { color: #f99157; }
+.base0A { color: #ffcc66; }
+.base0B { color: #99cc99; }
+.base0C { color: #66cccc; }
+.base0D { color: #6699cc; }
+.base0E { color: #cc99cc; }
+.base0F { color: #d27b53; }

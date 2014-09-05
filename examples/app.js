@@ -22,8 +22,10 @@ var App = React.createClass({
       data: []
     };
   },
+  componentDidMount: function () {
+    this.clickHandler();
+  },
   clickHandler: function () {
-    console.log('click handler yo');
     requestData(function (err, data) {
       if (err) { console.log(err); return; }
       this.setState({
@@ -34,7 +36,9 @@ var App = React.createClass({
   render: function () {
     return React.DOM.div({
       children: [
-        React.DOM.h1(null, 'Hi From React'),
+        React.DOM.h2({
+          className: 'hero-button'
+        }, 'React Table'),
         Button({clickHandler: this.clickHandler}),
         ReactTable({
           data: this.state.data,
