@@ -1,3 +1,27 @@
 .react-table {
-  color: red;
+  border-collapse: collapse;
+  border-spacing: 0;
+  empty-cells: show;
+  text-align: left;
+}
+
+.react-table__thead {
+  vertical-align: bottom;
+}
+
+.react-table__th {
+  padding: .75em 1em;
+}
+
+.react-table caption {
+  padding: 1em 0;
+  text-align: center;
+}
+
+.pure-table td,
+.pure-table th {
+    font-size: inherit;
+    margin: 0;
+    overflow: visible; /*to make ths where the title is really long work*/
+    padding: 0.5em 1em; /* cell padding */
 }
