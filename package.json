@@ -1,7 +1,7 @@
 {
   "name": "react-table",
-  "version": "0.0.0",
-  "description": "A sortable table component for react",
+  "version": "0.0.5",
+  "description": "A simple sortable table component for react",
   "main": "index.js",
   "scripts": {
     "start": "gulp",
