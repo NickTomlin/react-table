@@ -1,7 +1,8 @@
 var React = require('react');
+var constants = require('./constants');
 
 module.exports = React.createClass({
-  className: 'table-header',
+  className: constants.moduleClass + '__' + constants.thClass,
   getDefaultProps: function () {
     return {
       isActive: false,
@@ -17,7 +18,7 @@ module.exports = React.createClass({
   },
   getClassName: function () {
     var activeClass = this.props.isActive ?
-      this.className + '__' + this.props.sortDirection : '';
+      this.className + '--' + this.props.sortDirection : '';
     return [this.className, activeClass].join(' ');
   },
   render: function () {

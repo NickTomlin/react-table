@@ -1,7 +1,9 @@
 var React = require('react');
 var TableHeader = require('./table-header');
+var constants = require('./constants');
 
 module.exports = React.createClass({
+  className: constants.moduleClass + '__' + constants.headClass,
   getDefaultProps: function () {
     return {
       columns: [],
@@ -28,6 +30,7 @@ module.exports = React.createClass({
   },
   render: function () {
     return React.DOM.thead({
+      className: this.className,
       children: this.renderHeader()
     });
   }
