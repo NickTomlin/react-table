@@ -5,7 +5,7 @@ A simple sortable table component for react.
 
 # Usage
 
-`npm install nicktomlin/react-table`
+`npm install nicktomlin/react-table` (non cjs users can point a `<script`> tag to the built files in `dist`)
 
 ```javasript
 var React = require('react');
