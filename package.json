@@ -10,17 +10,9 @@
   },
   "author": "Nick Tomlin",
   "license": "ISC",
-  "jest": {
-    "testDirectoryName": "unit",
-    "testPathDirs": [
-      "<rootDir>/test"
-    ],
-    "unmockedModulePathPatterns": [
-      "<rootDir>/node_modules/react",
-      "<rootDir>/node_modules/lodash",
-      "<rootDir>/test/unit/spec-helper",
-      "<rootDir>/test/unit/data"
-    ]
+  "repository": {
+    "type" : "git",
+    "url" : "http://github.com/nicktomlin/react-table"
   },
   "devDependencies": {
     "browserify": "^5.10.0",
@@ -46,5 +38,17 @@
   },
   "dependencies": {
     "react": "^0.11.1"
+  },
+  "jest": {
+    "testDirectoryName": "unit",
+    "testPathDirs": [
+      "<rootDir>/test"
+    ],
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/react",
+      "<rootDir>/node_modules/lodash",
+      "<rootDir>/test/unit/spec-helper",
+      "<rootDir>/test/unit/data"
+    ]
   }
 }
