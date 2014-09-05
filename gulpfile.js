@@ -3,6 +3,7 @@ var gutil = require('gulp-util');
 var browserify = require('browserify');
 var streamify = require('gulp-streamify');
 var connect = require('connect');
+var livereload = require('gulp-livereload');
 var http = require('http');
 var source = require('vinyl-source-stream');
 var rename = require('gulp-rename');
@@ -64,8 +65,15 @@ gulp.task('serve', ['build:examples'], function (cb) {
 });
 
 gulp.task('dev', function () {
-  gulp.watch(['./src/**/*.js'], ['build:dev', 'build:examples']);
-  gulp.watch(['./examples/*.js'], ['build:examples']);
+  livereload.listen();
+
+  gulp.watch(['./src/**/*.js'], ['build:dev', 'build:examples'])
+    .on('change', livereload.changed);
+  gulp.watch(['./examples/*.js'], ['build:examples'])
+    .on('change', livereload.changed);
+  gulp.watch(['./examples/public/*.css'])
+    .on('change', livereload.changed);
+
   // .start as alternative to .run http://stackoverflow.com/a/23298810/1048479
   gulp.start('serve');
 });
