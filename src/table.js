@@ -116,7 +116,7 @@ module.exports = React.createClass({
     var data = this.props.data.slice();
 
     return this.sortRows(data)
-      .map(this.renderRow.bind(this));
+      .map(this.renderRow);
   },
   render: function () {
     return React.DOM.table({children: [
