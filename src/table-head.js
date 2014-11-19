@@ -29,7 +29,7 @@ module.exports = React.createClass({
     }.bind(this));
   },
   render: function () {
-    return React.DOM.thead({
+    return React.createElement('thead', {
       className: this.className,
       children: this.renderHeader()
     });

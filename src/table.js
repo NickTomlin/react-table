@@ -119,7 +119,7 @@ module.exports = React.createClass({
       .map(this.renderRow);
   },
   render: function () {
-    return React.DOM.table({children: [
+    return React.createElement('table', {children: [
       this.renderHead(),
       this.renderRows()
     ]});

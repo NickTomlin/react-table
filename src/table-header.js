@@ -22,7 +22,7 @@ module.exports = React.createClass({
     return [this.className, activeClass].join(' ');
   },
   render: function () {
-    return React.DOM.th({
+    return React.createElement('th', {
       onClick: this.handleClick,
       className: this.getClassName()
     }, this.props.children);

@@ -12,7 +12,7 @@ var Button = React.createClass({
     this.props.clickHandler();
   },
   render: function () {
-    return React.DOM.button({onClick: this.handleClick}, 'load data');
+    return React.createElement('div', {onClick: this.handleClick}, 'load data');
   }
 });
 
@@ -36,7 +36,7 @@ var App = React.createClass({
   render: function () {
     return React.DOM.div({
       children: [
-        React.DOM.h2({
+        React.createElement('h2', {
           className: 'hero-button'
         }, 'React Table'),
         Button({clickHandler: this.clickHandler}),
