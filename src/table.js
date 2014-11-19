@@ -1,6 +1,6 @@
 var React = require('react');
-var TableRow = require('./table-row');
-var TableHead = require('./table-head');
+var TableRow = React.createFactory(require('./table-row'));
+var TableHead = React.createFactory(require('./table-head'));
 
 module.exports = React.createClass({
   getDefaultProps: function () {

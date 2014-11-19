@@ -1,8 +1,8 @@
 var React = require('react');
-var ReactTable = require('../index');
+var ReactTable = React.createFactory(require('../index'));
 var request = require('superagent');
 
-var Button = React.createClass({
+var Button = React.createFactory(React.createClass({
   getDefaultProps: function () {
     return {
       clickHandler: function () {}
@@ -14,9 +14,9 @@ var Button = React.createClass({
   render: function () {
     return React.createElement('div', {onClick: this.handleClick}, 'load data');
   }
-});
+}));
 
-var App = React.createClass({
+var App = React.createeFactory(React.createClass({
   getInitialState: function () {
     return {
       data: []
@@ -49,7 +49,7 @@ var App = React.createClass({
       ]
     });
   }
-});
+}));
 
 function requestData (callback) {
   request.get('/data')
@@ -74,4 +74,4 @@ function pipeline (data) {
     .map(transformToObject);
 }
 
-React.renderComponent(App(), document.body);
+React.render(App(), document.body);

@@ -1,5 +1,5 @@
 var React = require('react');
-var TableHeader = require('./table-header');
+var TableHeader = React.createFactory(require('./table-header'));
 var constants = require('./constants');
 
 module.exports = React.createClass({
