@@ -16,7 +16,7 @@ var Button = React.createFactory(React.createClass({
   }
 }));
 
-var App = React.createeFactory(React.createClass({
+var App = React.createFactory(React.createClass({
   getInitialState: function () {
     return {
       data: []
