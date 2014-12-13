@@ -60,8 +60,10 @@ gulp.task('serve', ['build:examples'], function (cb) {
     }));
 
     http.createServer(app)
-      .listen(CONFIG.port)
-      .on('close', cb);
+    .listen(CONFIG.port, function () {
+      console.log('React Table example served up at', CONFIG.port);
+    })
+    .on('close', cb);
 });
 
 gulp.task('dev', function () {
