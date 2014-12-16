@@ -1,6 +1,8 @@
 React Table
 ---
 
+[![Build Status](http://img.shields.io/travis/NickTomlin/react-table.svg?style=flat)](https://travis-ci.org/NickTomlin/react-table)
+
 A simple sortable table component for react.
 
 # Usage
