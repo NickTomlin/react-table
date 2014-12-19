@@ -2,20 +2,6 @@ var React = require('react');
 var ReactTable = React.createFactory(require('../index'));
 var request = require('superagent');
 
-var Button = React.createFactory(React.createClass({
-  getDefaultProps: function () {
-    return {
-      clickHandler: function () {}
-    };
-  },
-  handleClick: function () {
-    this.props.clickHandler();
-  },
-  render: function () {
-    return React.createElement('div', {onClick: this.handleClick}, 'load data');
-  }
-}));
-
 var App = React.createFactory(React.createClass({
   getInitialState: function () {
     return {
@@ -34,20 +20,17 @@ var App = React.createFactory(React.createClass({
     }.bind(this));
   },
   render: function () {
-    return React.DOM.div({
-      children: [
-        React.createElement('h2', {
-          className: 'hero-button'
-        }, 'React Table'),
-        Button({clickHandler: this.clickHandler}),
-        ReactTable({
-          data: this.state.data,
-          columnDisplay: {
-            'neighborhood': 'borough'
-          }
-        })
-      ]
-    });
+    var columnDisplay = {
+      'neighborhood': 'borough'
+    };
+
+    return (
+      <div>
+        <h2 className="hero-button">React Table</h2>
+        <button onClick={this.clickHandler} disabled={this.state.data.length > 1 ? 'true' : ''} >Load Data</button>
+        <ReactTable data={this.state.data} columnDisplay={columnDisplay} />
+      </div>
+    );
   }
 }));
 
@@ -74,4 +57,4 @@ function pipeline (data) {
     .map(transformToObject);
 }
 
-React.render(App(), document.body);
+React.render(<App />, document.body);
