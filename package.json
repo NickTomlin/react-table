@@ -1,6 +1,6 @@
 {
   "name": "react-table",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "description": "A simple sortable table component for react",
   "main": "index.js",
   "scripts": {
@@ -37,7 +37,9 @@
     "watchify": "^1.0.2"
   },
   "browserify": {
-    "transform": ["reactify"]
+    "transform": [
+      "reactify"
+    ]
   },
   "dependencies": {
     "react": "^0.12.1"
