@@ -14,6 +14,11 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  cursor: not-allowed;
+  background: hsl(9, 36%, 61%);
+}
+
 .hero-button {
   text-align: center;
   font-size:3em;

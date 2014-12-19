@@ -12,15 +12,14 @@ A simple sortable table component for react.
 ```javasript
 var React = require('react');
 var ReactTable = require('react-table');
+var data = [
+  {favoriteColor:'blue',  age: 30, name: "Athos",      job: "Musketeer"},
+  {favoriteColor: 'red' ,  age: 33, name: "Porthos",    job: "Musketeer"},
+  {favoriteColor: 'blue' ,  age: 27, name: "Aramis",     job: "Musketeer"},
+  {favoriteColor: 'orange' ,  age: 25, name: "d'Artagnan", job: "Guard"}
+];
 
-React.renderComponent(ReactTable({
-  data: [
-    {favoriteColor:'blue',  age: 30, name: "Athos",      job: "Musketeer"},
-    {favoriteColor: 'red' ,  age: 33, name: "Porthos",    job: "Musketeer"},
-    {favoriteColor: 'blue' ,  age: 27, name: "Aramis",     job: "Musketeer"},
-    {favoriteColor: 'orange' ,  age: 25, name: "d'Artagnan", job: "Guard"}
-  ]
-}), document.body);
+React.render(<ReactTable data={data} />, document.body);
 ```
 
 See examples for a more full featured use case.
