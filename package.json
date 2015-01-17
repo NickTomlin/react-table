@@ -55,5 +55,12 @@
       "<rootDir>/test/unit/spec-helper",
       "<rootDir>/test/unit/data"
     ]
-  }
+  },
+  "keywords": [
+    "react",
+    "react-component",
+    "table",
+    "sortable-table",
+    "sortable"
+  ]
 }
