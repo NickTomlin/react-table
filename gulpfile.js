@@ -9,37 +9,56 @@ var source = require('vinyl-source-stream');
 var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 
-
 var CONFIG = {
   namespace: 'ReactTable',
   distDir: 'dist',
   outfile: 'react-table.js',
+  examplesPublicDir: './examples/public',
   port: 3111
 };
 
-function buildScript (inFilePath, outfileName, dest) {
+function bify (src, includeReact) {
+  var b = browserify({
+    entries: src,
+    standalone: 'ReactTable'
+  });
+
+  if (!includeReact) {
+    b.transform('browserify-shim');
+    b.external('react');
+  }
+
+  b.on('error', gutil.log.bind(gutil, 'Browserify Error'));
+
+  return b;
+}
+
+function buildScript (bundle, outfileName, dest) {
   dest = dest || './dist';
 
-  return browserify(inFilePath)
+  return bundle
     .bundle()
-    .on('error', gutil.log.bind(gutil, 'Browserify Error'))
     .pipe(source(outfileName))
     .pipe(gulp.dest(dest));
 }
 
 gulp.task('build:dev', function () {
-    return buildScript('./index.js', CONFIG.outfile);
+  return buildScript(bify('./index.js'), CONFIG.outfile);
 });
 
 gulp.task('build:release', function () {
-    return buildScript('./index.js', CONFIG.outfile)
-      .pipe(streamify(uglify()))
-      .pipe(rename({suffix: '.min'}))
-      .pipe(gulp.dest(CONFIG.distDir));
+  return buildScript(bify('./index.js'), CONFIG.outfile)
+    .pipe(streamify(uglify()))
+    .pipe(rename({suffix: '.min'}))
+    .pipe(gulp.dest(CONFIG.distDir));
 });
 
-gulp.task('build:examples', function () {
-    return buildScript('./examples/app.js', 'app.built.js', './examples/public');
+gulp.task('build:examples', ['build:release'], function () {
+  return buildScript(
+    bify('./examples/app.js', true),
+    'app.built.js',
+    CONFIG.examplesPublicDir
+  );
 });
 
 gulp.task('serve', ['build:examples'], function (cb) {
