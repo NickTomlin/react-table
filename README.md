@@ -7,7 +7,7 @@ A simple sortable table component for react.
 
 # Usage
 
-`npm i react-table` (non cjs users can point a `<script`> tag to the built files in `dist`)
+`npm i react-table` (not an npm user? see instructions below)
 
 ```javasript
 var React = require('react');
@@ -23,6 +23,10 @@ React.render(<ReactTable data={data} />, document.body);
 ```
 
 See examples for a more full featured use case.
+
+## Usage without NPM
+
+Include the built files in `dist` with a `<script>` tag or the module loader of your choice. React-table expects that `React` is on the window and will not work without it.
 
 # Development
 
