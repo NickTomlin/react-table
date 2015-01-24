@@ -1,0 +1,24 @@
+{
+  "name": "react-table",
+  "main": "dist/react-table.js",
+  "version": "1.2.0",
+  "homepage": "https://github.com/NickTomlin/react-table",
+  "authors": [
+    "Nick Tomlin <nick.tomlin@gmail.com>"
+  ],
+  "description": "A simple sortable table component for react",
+  "keywords": [
+    "react",
+    "react-component",
+    "table",
+    "sortable-table",
+    "sortable"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test"
+  ]
+}
