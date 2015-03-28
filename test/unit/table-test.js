@@ -8,8 +8,7 @@ describe('Table', function () {
   var React = require('react/addons');
   var _ = require('lodash');
   var TestUtils = React.addons.TestUtils;
-  // curry render for less typing.
-  var render = helper.render.bind(null, Table);
+  var render = TestUtils.renderIntoDocument;
 
   function selecTrs (table) {
     return TestUtils.scryRenderedDOMComponentsWithTag(table, 'tr');
@@ -26,12 +25,12 @@ describe('Table', function () {
   }
 
   it('renders a table', function () {
-    var table = render();
+    var table = render(<Table />);
     expect(table.getDOMNode().tagName).toEqual('TABLE');
   });
 
   it('sets data prop to an an empty array if none is specified', function () {
-    var table = render();
+    var table = render(<Table />);
     expect(table.props.data).toEqual([]);
   });
 
@@ -43,7 +42,7 @@ describe('Table', function () {
     var row = data[0];
     var columns = ['include', 'alsoInclude'];
 
-    table = render({includedColumns: columns});
+    table = render(<Table includedColumns={columns}/>);
     filteredData = table.filterObject(row);
 
     expect(filteredData).toMatch(_.omit(data, '_private'));
@@ -51,7 +50,7 @@ describe('Table', function () {
 
   describe('#renderHeader', function () {
     it('defaults to creating headers based on key names of data', function () {
-      var table = render({data: fixtures.data});
+      var table = render(<Table data={fixtures.data}/>);
       var headers = table.generateHeadersFromRow(fixtures.data[0]);
 
       expect(headers).toMatch(Object.keys(fixtures.data[0]));
@@ -71,7 +70,7 @@ describe('Table', function () {
       var numericalData = [15, 47, 7, 7, 12, 15, 7, 15, 15, 27, 47].map(function (x) { return {id: x}; });
       var sorted = [7, 7, 7, 12, 15, 15, 15, 15, 27, 47, 47];
 
-      var table = render({data: numericalData});
+      var table = render(<Table data={numericalData} />);
       trsContain(table, sorted);
     });
 
@@ -82,7 +81,7 @@ describe('Table', function () {
 
       var sorted = ["NASSAU", "ONONDAGA", "ONONDAGA", "ONONDAGA", "ONONDAGA", "ONONDAGA", "ONONDAGA", "ONONDAGA", "ONONDAGA", "SUFFOLK", "SUFFOLK", "SUFFOLK", "SUFFOLK", "SUFFOLK", "SUFFOLK", "SUFFOLK", "SUFFOLK", "SUFFOLK", "WESTCHESTER", "WESTCHESTER", "WESTCHESTER", "WESTCHESTER", "WESTCHESTER", "WESTCHESTER", "WESTCHESTER"];
 
-      var table = render();
+      var table = render(<Table />);
       var actual = table.sortRows(data).map(function (x) { return x.name; });
 
       expect(actual.every(function (x, index) {
@@ -91,7 +90,7 @@ describe('Table', function () {
     });
 
     it('sorts rows in ascending order by default, using the 1st key of a row as comparator', function () {
-      var table = render({data: sortData});
+      var table = render(<Table data={sortData} />);
       var trs = selecTrs(table);
 
       var smallestId = sortData[0].id + sortData[0].name;
@@ -107,7 +106,7 @@ describe('Table', function () {
     // so we don't have to interact with the rendered component?
 
     it('sorts rows in descending order, if state.sortKey is descending, using the 1st key of a row as comparator', function () {
-      var table = render({data: sortData});
+      var table = render(<Table data={sortData} />);
 
       table.setState({sortDirection: 'descending'});
 
@@ -129,7 +128,7 @@ describe('Table', function () {
         'age': 300
       }
       ];
-      var table = render({data: data});
+      var table = render(<Table data={data} />);
       table.setState({activeSortKey: 'age'});
 
       trsContain(table, [1001, 3300]);
@@ -139,7 +138,7 @@ describe('Table', function () {
       var table;
 
       beforeEach(function () {
-        table  = render({data: sortData});
+        table = render(<Table data={sortData} />);
       });
 
       afterEach(function () {
@@ -214,10 +213,12 @@ describe('Table', function () {
       columnDisplay[fixtures.headings[0]] = fixtures.headings[0].toUpperCase();
       columnDisplay[fixtures.headings[1]] = fixtures.headings[1].toUpperCase();
 
-      var table = render({
-        data: fixtures.data,
-        columnDisplay: columnDisplay
-      });
+      var table = render(
+        <Table
+          data={fixtures.data}
+          columnDisplay={columnDisplay}
+        />
+      );
 
       var header = TestUtils.findRenderedComponentWithType(table, TableHead);
       var mappedHeaders = Object.keys(header.props.columnDisplay);
@@ -228,7 +229,7 @@ describe('Table', function () {
 
   describe('#renderRows', function () {
     it('returns an array containg tr components', function () {
-      var table = render({data: fixtures.data});
+      var table = render(<Table data={fixtures.data} />);
       expect(table.renderRows().length).toEqual(fixtures.data.length);
     });
   });

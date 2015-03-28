@@ -23,6 +23,8 @@ function bify (src, includeReact) {
     standalone: 'ReactTable'
   });
 
+  b.transform('reactify');
+
   if (!includeReact) {
     b.transform('browserify-shim');
     b.external('react');

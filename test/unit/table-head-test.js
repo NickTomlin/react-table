@@ -6,16 +6,15 @@ describe('TableHead', function () {
   var TableHeader = require('../../src/table-header');
   var React = require('react/addons');
   var helper = require('./spec-helper');
-  // curry render for less typing.
-  var render = helper.render.bind(null, TableHead);
-  TestUtils = React.addons.TestUtils;
+  var TestUtils = React.addons.TestUtils;
+  var render = TestUtils.renderIntoDocument;
 
   function queryHeadings (Component) {
     return TestUtils.scryRenderedComponentsWithType(Component, TableHeader);
   }
 
   it('renders a TableHeader element for each item in the columns prop', function () {
-    var head = render({columns: fixtures.headings});
+    var head = render(<TableHead columns={fixtures.headings} />);
     var headings = queryHeadings(head);
 
     expect(headings.length).toEqual(fixtures.headings.length);
@@ -23,7 +22,13 @@ describe('TableHead', function () {
 
   it('calls clickHandler handler when TableHeader is clicked', function () {
     var mockHandler = jest.genMockFunction();
-    var head = render({handleHeadingClick: mockHandler, sortKey: 'foo', columns: fixtures.headings});
+    var head = render(
+      <TableHead
+        handleHeadingClick={mockHandler}
+        sortKey={'foo'}
+        columns={fixtures.headings}
+      />
+  );
     var secondHeading = queryHeadings(head)[1].getDOMNode();
     helper.click(secondHeading);
 
@@ -31,21 +36,34 @@ describe('TableHead', function () {
   });
 
   it('remaps table header display if object is passed in', function () {
-    var head = render({sortKey: 'foo', columns: fixtures.headings, columnDisplay: {
+    var display = {
       'heading1': 'first heading',
       'heading2': 'second heading',
       'heading3': 'third heading'
-    }});
+    };
+    var head = render(
+      <TableHead
+        sortKey="foo"
+        columns={fixtures.headings}
+        columnDisplay={display}
+      />
+    );
 
     var secondHeadingNode = queryHeadings(head)[1].getDOMNode();
-
     expect(secondHeadingNode.textContent).toEqual('second heading');
   });
 
   it('uses the column name as the header display if no mapping is given', function () {
-    var head = render({sortKey: 'foo', columns: fixtures.headings, columnDisplay: {
+    var display = {
       'heading1': 'first heading',
-    }});
+    };
+    var head = render(
+      <TableHead
+        sortKey="foo"
+        columns={fixtures.headings}
+        columnDisplay={display}
+      />
+    );
 
     var headings = queryHeadings(head);
     var firstHeadingNode = headings[0].getDOMNode();

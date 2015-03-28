@@ -1,5 +1,5 @@
 var React = require('react');
-var TableHeader = React.createFactory(require('./table-header'));
+var TableHeader = require('./table-header');
 var constants = require('./constants');
 
 module.exports = React.createClass({
@@ -18,20 +18,23 @@ module.exports = React.createClass({
   renderHeader: function () {
     return this.props.columns.map(function (column) {
       var mappedValue = this.props.columnDisplay[column];
-
-      return TableHeader({
-        clickHandler: this.props.handleHeadingClick,
-        isActive: this.props.activeKey === column,
-        sortKey: column,
-        sortDirection: this.props.sortDirection,
-        children: mappedValue ? mappedValue : column
-      });
+      return (
+        <TableHeader
+          clickHandler={this.props.handleHeadingClick}
+          isActive={this.props.activeKey === column}
+          sortKey={column}
+          sortDirection={this.props.sortDirection}
+          >
+          {mappedValue ? mappedValue : column}
+        </TableHeader>
+      );
     }.bind(this));
   },
   render: function () {
-    return React.createElement('thead', {
-      className: this.className,
-      children: this.renderHeader()
-    });
+    return (
+      <thead className={this.className}>
+        {this.renderHeader()}
+      </thead>
+    );
   }
 });

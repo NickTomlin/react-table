@@ -13,7 +13,7 @@ module.exports = {
 },{}],3:[function(require,module,exports){
 (function (global){
 var React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
-var TableHeader = React.createFactory(require('./table-header'));
+var TableHeader = require('./table-header');
 var constants = require('./constants');
 
 module.exports = React.createClass({displayName: "exports",
@@ -32,21 +32,24 @@ module.exports = React.createClass({displayName: "exports",
   renderHeader: function () {
     return this.props.columns.map(function (column) {
       var mappedValue = this.props.columnDisplay[column];
-
-      return TableHeader({
-        clickHandler: this.props.handleHeadingClick,
-        isActive: this.props.activeKey === column,
-        sortKey: column,
-        sortDirection: this.props.sortDirection,
-        children: mappedValue ? mappedValue : column
-      });
+      return (
+        React.createElement(TableHeader, {
+          clickHandler: this.props.handleHeadingClick, 
+          isActive: this.props.activeKey === column, 
+          sortKey: column, 
+          sortDirection: this.props.sortDirection
+          }, 
+          mappedValue ? mappedValue : column
+        )
+      );
     }.bind(this));
   },
   render: function () {
-    return React.createElement('thead', {
-      className: this.className,
-      children: this.renderHeader()
-    });
+    return (
+      React.createElement("thead", {className: this.className}, 
+        this.renderHeader()
+      )
+    );
   }
 });
 
@@ -77,10 +80,14 @@ module.exports = React.createClass({displayName: "exports",
     return [this.className, activeClass].join(' ');
   },
   render: function () {
-    return React.createElement('th', {
-      onClick: this.handleClick,
-      className: this.getClassName()
-    }, this.props.children);
+    return (
+      React.createElement("th", {
+        onClick: this.handleClick, 
+        className: this.getClassName()
+        }, 
+        this.props.children
+      )
+    );
   }
 });
 
@@ -102,19 +109,22 @@ module.exports = React.createClass({displayName: "exports",
     var trClass = constants.moduleClass + '__' + constants.tdClass;
 
     for (var td in this.props.data) {
-      tds.push(React.createElement('td', {
-          className: trClass
-        }, this.props.data[td]));
+      tds.push(
+        React.createElement("td", {className: trClass}, 
+          this.props.data[td]
+        )
+      );
     }
 
     return tds;
   },
   render: function () {
     var rowData = this.renderRowData();
-    return React.createElement('tr', {
-      className: this.className,
-      children: rowData
-    });
+    return (
+      React.createElement("tr", {className: this.className}, 
+        rowData
+      )
+    );
   }
 });
 
@@ -122,8 +132,8 @@ module.exports = React.createClass({displayName: "exports",
 },{"./constants":2}],6:[function(require,module,exports){
 (function (global){
 var React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
-var TableRow = React.createFactory(require('./table-row'));
-var TableHead = React.createFactory(require('./table-head'));
+var TableRow = require('./table-row');
+var TableHead = require('./table-head');
 
 module.exports = React.createClass({displayName: "exports",
   getDefaultProps: function () {
@@ -180,13 +190,15 @@ module.exports = React.createClass({displayName: "exports",
   },
   renderHead: function () {
     var columns = this.generateHeadersFromRow(this.props.data[0]);
-    return TableHead({
-      columns: columns,
-      columnDisplay: this.props.columnDisplay,
-      activeKey: this.state.activeSortKey,
-      handleHeadingClick: this.handleHeadingClick,
-      sortDirection: this.state.sortDirection
-    });
+    return (
+      React.createElement(TableHead, {
+        columns: columns, 
+        columnDisplay: this.props.columnDisplay, 
+        activeKey: this.state.activeSortKey, 
+        handleHeadingClick: this.handleHeadingClick, 
+        sortDirection: this.state.sortDirection}
+        )
+    );
   },
   sortRow: function (options, rowA, rowB) {
     var a = rowA[options.key];
@@ -230,9 +242,9 @@ module.exports = React.createClass({displayName: "exports",
 
   },
   renderRow: function (row) {
-    return TableRow({
-      data: this.filterObject(row)
-    });
+    return (
+      React.createElement(TableRow, {data: this.filterObject(row)})
+    );
   },
   renderRows: function () {
     // keep things immutable-ish
@@ -242,10 +254,12 @@ module.exports = React.createClass({displayName: "exports",
       .map(this.renderRow);
   },
   render: function () {
-    return React.createElement('table', {children: [
-      this.renderHead(),
-      this.renderRows()
-    ]});
+    return (
+      React.createElement("table", null, 
+        this.renderHead(), ",", 
+        this.renderRows()
+      )
+    );
   }
 });
 
