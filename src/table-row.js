@@ -13,18 +13,21 @@ module.exports = React.createClass({
     var trClass = constants.moduleClass + '__' + constants.tdClass;
 
     for (var td in this.props.data) {
-      tds.push(React.createElement('td', {
-          className: trClass
-        }, this.props.data[td]));
+      tds.push(
+        <td className={trClass}>
+          {this.props.data[td]}
+        </td>
+      );
     }
 
     return tds;
   },
   render: function () {
     var rowData = this.renderRowData();
-    return React.createElement('tr', {
-      className: this.className,
-      children: rowData
-    });
+    return (
+      <tr className={this.className}>
+        {rowData}
+      </tr>
+    );
   }
 });

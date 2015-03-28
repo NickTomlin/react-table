@@ -1,6 +1,6 @@
 var React = require('react');
-var TableRow = React.createFactory(require('./table-row'));
-var TableHead = React.createFactory(require('./table-head'));
+var TableRow = require('./table-row');
+var TableHead = require('./table-head');
 
 module.exports = React.createClass({
   getDefaultProps: function () {
@@ -57,13 +57,15 @@ module.exports = React.createClass({
   },
   renderHead: function () {
     var columns = this.generateHeadersFromRow(this.props.data[0]);
-    return TableHead({
-      columns: columns,
-      columnDisplay: this.props.columnDisplay,
-      activeKey: this.state.activeSortKey,
-      handleHeadingClick: this.handleHeadingClick,
-      sortDirection: this.state.sortDirection
-    });
+    return (
+      <TableHead
+        columns={columns}
+        columnDisplay={this.props.columnDisplay}
+        activeKey= {this.state.activeSortKey}
+        handleHeadingClick={this.handleHeadingClick}
+        sortDirection={this.state.sortDirection}
+        />
+    );
   },
   sortRow: function (options, rowA, rowB) {
     var a = rowA[options.key];
@@ -107,9 +109,9 @@ module.exports = React.createClass({
 
   },
   renderRow: function (row) {
-    return TableRow({
-      data: this.filterObject(row)
-    });
+    return (
+      <TableRow data={this.filterObject(row)} />
+    );
   },
   renderRows: function () {
     // keep things immutable-ish
@@ -119,9 +121,11 @@ module.exports = React.createClass({
       .map(this.renderRow);
   },
   render: function () {
-    return React.createElement('table', {children: [
-      this.renderHead(),
-      this.renderRows()
-    ]});
+    return (
+      <table>
+        {this.renderHead()},
+        {this.renderRows()}
+      </table>
+    );
   }
 });
