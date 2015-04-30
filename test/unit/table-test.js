@@ -60,10 +60,30 @@ describe('Table', function () {
   describe('sorting', function () {
     var sortData = [
       {id: 10, name: "z"},
-      {id: 14000, name: "d"},
+      {id: 2000, name: "d"},
       {id: 104, name: "a"},
       {id: 90, name: "b"}
     ];
+
+    it('does not blow up if no data is provided', function () {
+      expect(function () {
+        render(<Table data={[]} initialSortKey='id' />);
+      }).not.toThrow();
+    });
+
+    it('takes an optional default sort parameter', function () {
+      var table = render(<Table data={sortData} initialSortKey='name' />);
+      var trs = selecTrs(table);
+
+      expect(trs[0].getDOMNode().textContent).toEqual('104a');
+    });
+
+    it('defaults to sorting by first key in data', function () {
+      var table = render(<Table data={sortData} initialSortKey='name' />);
+      var trs = selecTrs(table);
+
+      expect(trs[0].getDOMNode().textContent).toEqual('104a');
+    });
 
     it('properly sorts numerical items', function () {
       var key = 'id';

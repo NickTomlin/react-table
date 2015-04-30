@@ -10,7 +10,8 @@ module.exports = React.createClass({
   },
   getInitialState: function () {
     return {
-      sortDirection: 'ascending'
+      sortDirection: 'ascending',
+      activeSortKey: this.props.initialSortKey
     };
   },
   handleHeadingClick: function (data) {
@@ -90,6 +91,7 @@ module.exports = React.createClass({
     }
   },
   sortRows: function (data) {
+    if (!data.length) { return data; }
     var sortConfig = {};
 
     sortConfig.direction = this.state.sortDirection;

@@ -28,7 +28,7 @@ var App = React.createFactory(React.createClass({
       <div>
         <h2 className="hero-button">React Table</h2>
         <button onClick={this.clickHandler} disabled={this.state.data.length > 1 ? 'true' : ''} >Load Data</button>
-        <ReactTable data={this.state.data} columnDisplay={columnDisplay} />
+        <ReactTable data={this.state.data} columnDisplay={columnDisplay} initialSortKey='county'/>
       </div>
     );
   }
