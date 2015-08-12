@@ -1,13 +1,7 @@
-jest.dontMock('../../src/table-head');
-jest.dontMock('../../src/table-header');
-
 describe('TableHead', function () {
   var TableHead = require('../../src/table-head');
   var TableHeader = require('../../src/table-header');
-  var React = require('react/addons');
-  var helper = require('./spec-helper');
-  var TestUtils = React.addons.TestUtils;
-  var render = TestUtils.renderIntoDocument;
+  var helpers = require('./support/helpers');
 
   function queryHeadings (Component) {
     return TestUtils.scryRenderedComponentsWithType(Component, TableHeader);
@@ -17,22 +11,25 @@ describe('TableHead', function () {
     var head = render(<TableHead columns={fixtures.headings} />);
     var headings = queryHeadings(head);
 
-    expect(headings.length).toEqual(fixtures.headings.length);
+    expect(headings.length).to.eql(fixtures.headings.length);
   });
 
   it('calls clickHandler handler when TableHeader is clicked', function () {
-    var mockHandler = jest.genMockFunction();
+    var mockHandler = sandbox.spy();
     var head = render(
-      <TableHead
-        handleHeadingClick={mockHandler}
-        sortKey={'foo'}
-        columns={fixtures.headings}
-      />
-  );
-    var secondHeading = queryHeadings(head)[1].getDOMNode();
-    helper.click(secondHeading);
+      <table>
+        <TableHead
+          handleHeadingClick={mockHandler}
+          sortKey={'foo'}
+          columns={fixtures.headings}
+        />
+      </table>
+    );
 
-    expect(mockHandler).toBeCalled();
+    var secondHeading = queryHeadings(head)[1].getDOMNode();
+    helpers.click(secondHeading);
+
+    expect(mockHandler).to.have.been.called;
   });
 
   it('remaps table header display if object is passed in', function () {
@@ -42,15 +39,17 @@ describe('TableHead', function () {
       'heading3': 'third heading'
     };
     var head = render(
-      <TableHead
-        sortKey="foo"
-        columns={fixtures.headings}
-        columnDisplay={display}
-      />
+      <table>
+        <TableHead
+          sortKey="foo"
+          columns={fixtures.headings}
+          columnDisplay={display}
+        />
+      </table>
     );
 
     var secondHeadingNode = queryHeadings(head)[1].getDOMNode();
-    expect(secondHeadingNode.textContent).toEqual('second heading');
+    expect(secondHeadingNode.textContent).to.eql('second heading');
   });
 
   it('uses the column name as the header display if no mapping is given', function () {
@@ -58,18 +57,20 @@ describe('TableHead', function () {
       'heading1': 'first heading',
     };
     var head = render(
-      <TableHead
-        sortKey="foo"
-        columns={fixtures.headings}
-        columnDisplay={display}
-      />
+      <table>
+        <TableHead
+          sortKey="foo"
+          columns={fixtures.headings}
+          columnDisplay={display}
+        />
+      </table>
     );
 
     var headings = queryHeadings(head);
     var firstHeadingNode = headings[0].getDOMNode();
     var secondHeadingNode = headings[1].getDOMNode();
 
-    expect(firstHeadingNode.textContent).toEqual('first heading');
-    expect(secondHeadingNode.textContent).toEqual(fixtures.headings[1]);
+    expect(firstHeadingNode.textContent).to.eql('first heading');
+    expect(secondHeadingNode.textContent).to.eql(fixtures.headings[1]);
   });
 });

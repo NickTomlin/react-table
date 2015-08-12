@@ -1,12 +1,6 @@
-jest.dontMock('../../src/table-row');
-require('./spec-helper');
-
 describe('Table Row', function () {
-  var React = require('react/addons');
-  var TestUtils = React.addons.TestUtils;
-  var helper = require('./spec-helper');
+  var helpers = require('./support/helpers');
   var TableRow = require('../../src/table-row');
-  var render = TestUtils.renderIntoDocument;
 
   function objectLength (obj) {
     return Object.keys(obj).length;
@@ -23,6 +17,6 @@ describe('Table Row', function () {
     var expectedTds = objectLength(data);
 
     var tds = TestUtils.scryRenderedDOMComponentsWithTag(tr, 'td');
-    expect(tds.length).toEqual(expectedTds);
+    expect(tds.length).to.eql(expectedTds);
   });
 });
