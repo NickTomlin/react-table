@@ -1,7 +1,11 @@
 !function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.ReactTable=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+'use strict';
+
 module.exports = require('./src/table');
 
 },{"./src/table":6}],2:[function(require,module,exports){
+'use strict';
+
 module.exports = {
   moduleClass: 'react-table',
   thClass: 'th',
@@ -12,157 +16,150 @@ module.exports = {
 
 },{}],3:[function(require,module,exports){
 (function (global){
-var React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
+'use strict';
+
+var React = typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null;
 var TableHeader = require('./table-header');
 var constants = require('./constants');
 
-module.exports = React.createClass({displayName: "exports",
+module.exports = React.createClass({
+  displayName: 'exports',
+
   className: constants.moduleClass + '__' + constants.headClass,
-  getDefaultProps: function () {
+  getDefaultProps: function getDefaultProps() {
     return {
       columns: [],
       columnDisplay: {}
     };
   },
-  handleHeadingClick: function () {
+  handleHeadingClick: function handleHeadingClick() {
     if (this.props.clickHandler) {
       this.props.clickHandler.apply(null, arguments);
     }
   },
-  renderHeader: function () {
-    return this.props.columns.map(function (column) {
+  renderHeader: function renderHeader() {
+    return this.props.columns.map((function (column) {
       var mappedValue = this.props.columnDisplay[column];
-      return (
-        React.createElement(TableHeader, {
-          clickHandler: this.props.handleHeadingClick, 
-          isActive: this.props.activeKey === column, 
-          sortKey: column, 
-          sortDirection: this.props.sortDirection
-          }, 
-          mappedValue ? mappedValue : column
-        )
-      );
-    }.bind(this));
+      return React.createElement(TableHeader, {
+        clickHandler: this.props.handleHeadingClick,
+        isActive: this.props.activeKey === column,
+        sortKey: column,
+        sortDirection: this.props.sortDirection
+      }, mappedValue ? mappedValue : column);
+    }).bind(this));
   },
-  render: function () {
-    return (
-      React.createElement("thead", {className: this.className}, 
-        this.renderHeader()
-      )
-    );
+  render: function render() {
+    return React.createElement('thead', { className: this.className }, this.renderHeader());
   }
 });
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./constants":2,"./table-header":4}],4:[function(require,module,exports){
 (function (global){
-var React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
+'use strict';
+
+var React = typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null;
 var constants = require('./constants');
 
-module.exports = React.createClass({displayName: "exports",
+module.exports = React.createClass({
+  displayName: 'exports',
+
   className: constants.moduleClass + '__' + constants.thClass,
-  getDefaultProps: function () {
+  getDefaultProps: function getDefaultProps() {
     return {
       isActive: false,
       sortDirection: 'ascending'
     };
   },
-  handleClick: function () {
+  handleClick: function handleClick() {
     if (this.props.clickHandler) {
       this.props.clickHandler({
         sortKey: this.props.sortKey
       });
     }
   },
-  getClassName: function () {
-    var activeClass = this.props.isActive ?
-      this.className + '--' + this.props.sortDirection : '';
+  getClassName: function getClassName() {
+    var activeClass = this.props.isActive ? this.className + '--' + this.props.sortDirection : '';
     return [this.className, activeClass].join(' ');
   },
-  render: function () {
-    return (
-      React.createElement("th", {
-        onClick: this.handleClick, 
-        className: this.getClassName()
-        }, 
-        this.props.children
-      )
-    );
+  render: function render() {
+    return React.createElement('th', {
+      onClick: this.handleClick,
+      className: this.getClassName()
+    }, this.props.children);
   }
 });
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./constants":2}],5:[function(require,module,exports){
 (function (global){
-var React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
+'use strict';
+
+var React = typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null;
 var constants = require('./constants');
 
-module.exports = React.createClass({displayName: "exports",
+module.exports = React.createClass({
+  displayName: 'exports',
+
   className: constants.moduleClass + '__' + constants.trClass,
-  getDefaultProps: function () {
+  getDefaultProps: function getDefaultProps() {
     return {
       data: []
     };
   },
-  renderRowData: function () {
+  renderRowData: function renderRowData() {
     var tds = [];
     var trClass = constants.moduleClass + '__' + constants.tdClass;
 
     for (var td in this.props.data) {
-      tds.push(
-        React.createElement("td", {className: trClass}, 
-          this.props.data[td]
-        )
-      );
+      tds.push(React.createElement('td', { className: trClass }, this.props.data[td]));
     }
 
     return tds;
   },
-  render: function () {
+  render: function render() {
     var rowData = this.renderRowData();
-    return (
-      React.createElement("tr", {className: this.className}, 
-        rowData
-      )
-    );
+    return React.createElement('tr', { className: this.className }, rowData);
   }
 });
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./constants":2}],6:[function(require,module,exports){
 (function (global){
-var React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
+'use strict';
+
+var React = typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null;
 var TableRow = require('./table-row');
 var TableHead = require('./table-head');
 
-module.exports = React.createClass({displayName: "exports",
-  getDefaultProps: function () {
+module.exports = React.createClass({
+  displayName: 'exports',
+
+  getDefaultProps: function getDefaultProps() {
     return {
       data: []
     };
   },
-  getInitialState: function () {
+  getInitialState: function getInitialState() {
     return {
       sortDirection: 'ascending',
       activeSortKey: this.props.initialSortKey
     };
   },
-  handleHeadingClick: function (data) {
+  handleHeadingClick: function handleHeadingClick(data) {
     var activeKey = this.state.activeSortKey;
 
     if (activeKey && activeKey === data.sortKey) {
       this.setState({
-        sortDirection: this.state.sortDirection ===
-          'ascending' ? 'descending' : 'ascending'
+        sortDirection: this.state.sortDirection === 'ascending' ? 'descending' : 'ascending'
       });
     } else {
       this.setState({
         activeSortKey: data.sortKey
-      }, function () {
-      }.bind(this));
+      }, (function () {}).bind(this));
     }
   },
-  filterObject: function (obj) {
+  filterObject: function filterObject(obj) {
     var filteredData;
     var includedColumns = this.props.includedColumns;
 
@@ -178,7 +175,7 @@ module.exports = React.createClass({displayName: "exports",
 
     return filteredData;
   },
-  generateHeadersFromRow: function (row) {
+  generateHeadersFromRow: function generateHeadersFromRow(row) {
     var data;
     var keys = [];
 
@@ -189,19 +186,17 @@ module.exports = React.createClass({displayName: "exports",
 
     return keys;
   },
-  renderHead: function () {
+  renderHead: function renderHead() {
     var columns = this.generateHeadersFromRow(this.props.data[0]);
-    return (
-      React.createElement(TableHead, {
-        columns: columns, 
-        columnDisplay: this.props.columnDisplay, 
-        activeKey: this.state.activeSortKey, 
-        handleHeadingClick: this.handleHeadingClick, 
-        sortDirection: this.state.sortDirection}
-        )
-    );
+    return React.createElement(TableHead, {
+      columns: columns,
+      columnDisplay: this.props.columnDisplay,
+      activeKey: this.state.activeSortKey,
+      handleHeadingClick: this.handleHeadingClick,
+      sortDirection: this.state.sortDirection
+    });
   },
-  sortRow: function (options, rowA, rowB) {
+  sortRow: function sortRow(options, rowA, rowB) {
     var a = rowA[options.key];
     var b = rowB[options.key];
 
@@ -223,8 +218,10 @@ module.exports = React.createClass({displayName: "exports",
       }
     }
   },
-  sortRows: function (data) {
-    if (!data.length) { return data; }
+  sortRows: function sortRows(data) {
+    if (!data.length) {
+      return data;
+    }
     var sortConfig = {};
 
     sortConfig.direction = this.state.sortDirection;
@@ -232,36 +229,24 @@ module.exports = React.createClass({displayName: "exports",
     if (this.state.activeSortKey) {
       sortConfig.key = this.state.activeSortKey;
     } else {
-      sortConfig.key = data[0] ?
-        Object.keys(data[0])[0]
-        : undefined;
+      sortConfig.key = data[0] ? Object.keys(data[0])[0] : undefined;
     }
 
     sortConfig.type = sortConfig.key ? typeof data[0][sortConfig.key] : undefined;
 
-    return data
-          .sort(this.sortRow.bind(this, sortConfig));
-
+    return data.sort(this.sortRow.bind(this, sortConfig));
   },
-  renderRow: function (row) {
-    return (
-      React.createElement(TableRow, {data: this.filterObject(row)})
-    );
+  renderRow: function renderRow(row) {
+    return React.createElement(TableRow, { data: this.filterObject(row) });
   },
-  renderRows: function () {
+  renderRows: function renderRows() {
     // keep things immutable-ish
     var data = this.props.data.slice();
 
-    return this.sortRows(data)
-      .map(this.renderRow);
+    return this.sortRows(data).map(this.renderRow);
   },
-  render: function () {
-    return (
-      React.createElement("table", null, 
-        this.renderHead(), ",", 
-        this.renderRows()
-      )
-    );
+  render: function render() {
+    return React.createElement('table', null, this.renderHead(), ',', this.renderRows());
   }
 });
 

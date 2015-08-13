@@ -23,7 +23,7 @@ function bify (src, includeReact) {
     standalone: 'ReactTable'
   });
 
-  b.transform('reactify');
+  b.transform('babelify');
 
   if (!includeReact) {
     b.transform('browserify-shim');
