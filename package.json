@@ -1,5 +1,5 @@
 {
-  "name": "react-table",
+  "name": "@nicktomlin/react-table",
   "version": "1.3.0",
   "description": "A simple sortable table component for react",
   "main": "index.js",

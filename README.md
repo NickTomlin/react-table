@@ -2,13 +2,13 @@ React Table
 ---
 
 [![Build Status](http://img.shields.io/travis/NickTomlin/react-table.svg?style=flat&branch=master)](https://travis-ci.org/NickTomlin/react-table)
-![NPM package](https://img.shields.io/npm/v/react-table.svg)
+![NPM package](https://img.shields.io/npm/v/@nicktomlin/react-table.svg)
 
 A simple sortable table component for react.
 
 # Usage
 
-`npm i react-table` (not an npm user? see instructions below)
+`npm i @nicktomlin/react-table` (not an npm user? see instructions below)
 
 ```javasript
 var React = require('react');
